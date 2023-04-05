@@ -30,6 +30,7 @@ def final_score(browser):
     score_field = browser.find_element_by_class_name("score-container")
     score = score_field.text
     split_score = score.split("+")
+    # time.sleep(10)
     browser.close()
     return split_score[0]
 
