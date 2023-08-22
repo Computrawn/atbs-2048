@@ -17,15 +17,15 @@ logging.basicConfig(
 logging.disable(logging.CRITICAL)  # Note out to enable logging.
 
 
-def play_2048() -> int:
-    """Opens, plays and closes 2048 game site in Safari then returns score."""
+def play_2048(moves) -> int:
+    """Opens, plays user-defined number of moves and closes 2048 game site in Safari then returns score."""
     driver = webdriver.Safari()
     driver.set_window_size(1300, 1300)
     driver.get("https://play2048.co")
     push_button = WebDriverWait(driver, 0.01).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "container"))
+        EC.visibility_of_element_located((By.CLASS_NAME, "container"))
     )
-    for _ in range(200):
+    for _ in range(moves):
         push_button.send_keys(Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT)
 
     score_field = driver.find_element(By.CLASS_NAME, "score-container")
@@ -38,7 +38,8 @@ def play_2048() -> int:
 
 
 def main():
-    score = play_2048()
+    moves = int(input("How many moves would you like to try? "))
+    score = play_2048(moves // 4)
     print(f"Your final score was: {score:,}.")
 
 
