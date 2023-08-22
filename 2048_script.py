@@ -32,8 +32,8 @@ def play_2048() -> int:
     score = score_field.text
     split_score = score.split("+")
     # driver.implicitly_wait(10)  # Wait 10 seconds
-    driver.close()
     score = split_score[0]
+    driver.close()
     return int(score)
 
 
