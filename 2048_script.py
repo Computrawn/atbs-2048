@@ -18,7 +18,8 @@ logging.disable(logging.CRITICAL)  # Note out to enable logging.
 
 
 def play_2048(moves) -> int:
-    """Opens, plays user-defined number of moves and closes 2048 game site in Safari then returns score."""
+    """Opens 2048 game site in Safari, plays user-defined number
+    of moves, then closes browser and returns score."""
     driver = webdriver.Safari()
     driver.set_window_size(1300, 1300)
     driver.get("https://play2048.co")
@@ -37,7 +38,8 @@ def play_2048(moves) -> int:
     return int(score)
 
 
-def main():
+def main() -> None:
+    """Prompt user for move count, play game, then print score to stdout."""
     moves = int(input("How many moves would you like to try? "))
     score = play_2048(moves // 4)
     print(f"Your final score was: {score:,}.")
