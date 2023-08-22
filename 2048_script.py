@@ -18,7 +18,7 @@ logging.disable(logging.CRITICAL)  # Note out to enable logging.
 
 
 def play_2048() -> int:
-    """Opens, plays and closes 2048 game site then returns score."""
+    """Opens, plays and closes 2048 game site in Safari then returns score."""
     driver = webdriver.Safari()
     driver.set_window_size(1300, 1300)
     driver.get("https://play2048.co")
