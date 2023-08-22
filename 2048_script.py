@@ -7,9 +7,8 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-
-# from selenium.webdriver.support.wait import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -19,24 +18,17 @@ logging.basicConfig(
 logging.disable(logging.CRITICAL)  # Note out to enable logging.
 
 
-PAUSE = 0.001
-
-
-def open_site(site):
+def open_site(site, moves):
     """Opens 2048 game site."""
-    browser = webdriver.Safari()
-    browser.set_window_size(1300, 1300)
-    browser.get(site)
-    return browser
-
-
-def play_2048(browser, loop_moves):
-    """Plays game by sending loop of direction commands."""
-    push_button = browser.find_element(By.CLASS_NAME, "container")
-    for _ in range(loop_moves):
+    driver = webdriver.Safari()
+    driver.set_window_size(1300, 1300)
+    driver.get(site)
+    push_button = WebDriverWait(driver, 0.01).until(
+        EC.element_to_be_clickable((By.CLASS_NAME, "container"))
+    )
+    for _ in range(moves):
         push_button.send_keys(Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT)
-        time.sleep(PAUSE)
-    return browser
+    return driver
 
 
 def final_score(browser):
@@ -50,21 +42,21 @@ def final_score(browser):
 
 
 def main():
-    website = "https://play2048.co"
-    loop_moves = int(input("How times would you like the loop to execute? "))
+    site_open = open_site(
+        "https://play2048.co",
+        int(input("How times would you like the loop to execute? ")),
+    )
+    # get_score = play_2048(site_open, loop_moves)
+    print(f"You scored {final_score(site_open)}.")
 
-    site_open = open_site(website)
-    get_score = play_2048(site_open, loop_moves)
-    print(f"You scored {final_score(get_score)}.")
-
-    while True:
-        play_again = input("Would you like to play again? ").lower()
-        if play_again == "yes":
-            site_open = open_site(website)
-            get_score = play_2048(site_open, loop_moves)
-            print(f"You scored {final_score(get_score)}.")
-        else:
-            break
+    # while True:
+    #     play_again = input("Would you like to play again? ").lower()
+    #     if play_again == "yes":
+    #         site_open = open_site(website)
+    #         get_score = play_2048(site_open, loop_moves)
+    #         print(f"You scored {final_score(get_score)}.")
+    #     else:
+    #         break
 
 
 if __name__ == "__main__":
